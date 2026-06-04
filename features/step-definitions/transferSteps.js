@@ -1,18 +1,18 @@
-import { Given, When, Then } from "@wdio/cucumber-framework";
+import { Given, When, Then, Before } from "@wdio/cucumber-framework";
 import LoginPage from "../pageobjects/login.page.js";
 import TransferPage from "../pageobjects/transfer.page.js";
 import { sleep } from "../pageobjects/page.js";
 
 Given(
-  /^I login with username (.*) and password (.*)$/,
-  async (username, password) => {
-    await LoginPage.open();
-    await LoginPage.login(username, password);
-  }
+    /^I log in with username (.*) and password (.*)$/,
+    async (username, password) => {
+        await LoginPage.open();
+        await LoginPage.login(username, password);
+    }
 );
 
 // TRANSFER
-Given(/^I login in my account and go to transfer funds page$/, async () => {
+Given(/^I go to transfer funds page$/, async () => {
   await TransferPage.open();
 });
 

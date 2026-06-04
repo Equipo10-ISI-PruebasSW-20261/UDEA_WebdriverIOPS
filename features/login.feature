@@ -1,13 +1,16 @@
-Feature: Para Bank transfer Feature
+Feature: Para Bank Login Features
 
-  Background:
-    Given I login with username john and password demo
+  Scenario Outline: As a user, I can log into the Parabank Accounts Service Page
+    Given I am on the login page
+    When I login with <username> and <password>
+    Then I should see a text saying <message>
 
-  Scenario Outline: As a user, I want to transfer funds between accounts
-    Given I login in my account and go to transfer funds page
-    When I transfer <amount> from the account <fromAccountId> to the account <toAccountId>
-    Then The message should be <message>
+    Examples: 
+      | username          | password | message           |
+      | invalidUsername   | password | Error!            |
+      | john              | demo     | Accounts Overview |
 
-    Examples:
-      | fromAccountId | toAccountId | amount | message            |
-      |         17229 |       17340 |    100 | Transfer Complete! |
+  Scenario: Login button is disabled when fields are empty
+    Given I am on the login page
+    And the username and password fields are empty
+    Then the Login button should be disabled

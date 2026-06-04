@@ -60,9 +60,3 @@ Then('I should see recent transactions', async () => {
 
     await expect(transactionTable).toBeDisplayed();
 });
-
-Then('the displayed information should be updated', async () => {
-    await expect(browser).toHaveUrl(
-        expect.stringContaining(`id=${selectedAccountNumber}`)
-    );
-});

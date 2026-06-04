@@ -24,24 +24,20 @@ class TransferPage extends Page {
         return $("//input[@value='Transfer']");
     }
 
-    async waitForPage() {
-        await this.inputAmount.waitForDisplayed({ timeout: 10000 });
-    } 
+    async transfer(amount, from, to) {
+      await this.inputAmount.setValue(amount);
+      await this.inputFrom.selectByVisibleText(from);
+      await this.inputTo.selectByVisibleText(to);
+      await this.btnSubmit.click();
+    }
 
-  async transfer(amount, from, to) {
-    await this.inputAmount.setValue(amount);
-    await this.inputFrom.selectByVisibleText(from);
-    await this.inputTo.selectByVisibleText(to);
-    await this.btnSubmit.click();
-  }
+    open() {
+      return super.open("transfer");
+    }
 
-  open() {
-    return super.open("transfer");
-  }
-
-  get successfulTransferTitle() {
-    return $("#rightPanel > div > div > h1");
-  }
+    get successfulTransferTitle() {
+      return $("#rightPanel > div > div > h1");
+    }
 }
 
 export default new TransferPage();

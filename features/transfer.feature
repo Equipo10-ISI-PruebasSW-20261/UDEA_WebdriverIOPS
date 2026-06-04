@@ -1,7 +1,10 @@
 Feature: Para Bank transfer Feature
 
+  Background:
+    Given I login with john and password demo
+
   Scenario Outline: As a user, I want to transfer funds between accounts
-    Given I login with username john and password demo
+    When I go to transfer funds page
     When I transfer <amount> from the account <fromAccountId> to the account <toAccountId>
     Then The message should be <message>
 
