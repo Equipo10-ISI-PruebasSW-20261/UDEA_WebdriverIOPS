@@ -16,13 +16,18 @@ When(/^I login with (\w+) and (.+)$/, async (username, password) => {
 });
 
 Then(/^I should see a text saying (.*)$/, async (message) => {
-  if (message == "Error!") {
-    // invalid username or password
-    await expect($('.title')).toBeExisting();
-    await expect($('.title')).toHaveTextContaining(message);
-  } else {
-    // valid username or password
-    await expect($('.title')).toBeExisting();
-    await expect($('.title')).toHaveTextContaining(message);
-  }
+  await expect($('.title')).toBeExisting();
+  await expect($('.title')).toHaveTextContaining(message);
+});
+
+Given(/^the username and password fields are empty$/, async () => {
+  await LoginPage.usernameInput.clearValue();
+  await LoginPage.passwordInput.clearValue();
+
+  await expect(LoginPage.usernameInput).toHaveValue('');
+  await expect(LoginPage.passwordInput).toHaveValue('');
+});
+
+Then(/^the Login button should be disabled$/, async () => {
+  await expect(LoginPage.loginButton).toBeDisabled();
 });
