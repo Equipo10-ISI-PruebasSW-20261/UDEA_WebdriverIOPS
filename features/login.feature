@@ -8,7 +8,7 @@ Feature: Para Bank Login Features
     Examples: 
       | username          | password | message           |
       | invalidUsername   | password | Error!            |
-      | john123           | demo     | Accounts Overview |
+      | john1             | demo     | Accounts Overview |
 
   Scenario: Login button is disabled when fields are empty
     Given I am on the login page
