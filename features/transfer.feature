@@ -1,7 +1,7 @@
 Feature: Para Bank transfer Feature
 
   Background:
-    Given I login with john and password demo
+    Given I log in with john and password demo
 
   Scenario Outline: As a user, I want to transfer funds between accounts
     When I go to transfer funds page
@@ -10,4 +10,4 @@ Feature: Para Bank transfer Feature
 
     Examples:
       | fromAccountId | toAccountId | amount | message            |
-      |         17229 |       17340 |    100 | Transfer Complete! |
+      |         13344 |       32436 |    100 | Transfer Complete! |

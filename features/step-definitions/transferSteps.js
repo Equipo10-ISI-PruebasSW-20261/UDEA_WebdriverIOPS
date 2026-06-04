@@ -1,10 +1,10 @@
 import { Given, When, Then, Before } from "@wdio/cucumber-framework";
-import LoginPage from "../pageobjects/login.page.js";
+import LoginPage from '../pageobjects/login.page.js';
 import TransferPage from "../pageobjects/transfer.page.js";
 import { sleep } from "../pageobjects/page.js";
 
 Given(
-    /^I log in with username (.*) and password (.*)$/,
+    /^I log in with (.*) and password (.*)$/,
     async (username, password) => {
         await LoginPage.open();
         await LoginPage.login(username, password);
