@@ -1,26 +1,68 @@
 import { Given, When, Then } from '@wdio/cucumber-framework';
-import { expect } from '@wdio/globals';
+import LoginPage from '../pageobjects/login.page.js';
+import StatusConsultationPage from '../pageobjects/status-consultation.page.js';
 
-Given('I am logged into my bank account', async () => {
-    await browser.url('https://parabank.parasoft.com/parabank/index.htm');
+let selectedAccountNumber;
 
-    await $('input[name="username"]').setValue('john');
-    await $('input[name="password"]').setValue('demo');
-    await $('input[value="Log In"]').click();
-});
+Given(
+    /^I login with username (.*) and password (.*)$/,
+    async (username, password) => {
+        await LoginPage.open();
+        await LoginPage.login(username, password);
+    }
+);
 
 Given('I am on the Accounts Overview page', async () => {
-    await expect(browser).toHaveUrlContaining('overview');
+    await StatusConsultationPage.open();
+    await StatusConsultationPage.waitForAccountsToLoad();
 });
 
-When(/^I select account (.*)$/, async (accountId) => {
-    await $(`=${accountId}`).click();
+Then('I should see all my accounts listed', async () => {
+    const accountCount = await StatusConsultationPage.getAccountsCount();
+
+    await expect(accountCount).toBeGreaterThan(0);
 });
 
-Then(/^I should see account (.*)$/, async (accountId) => {
-    await expect($('body')).toHaveTextContaining(accountId);
+When(/^I select account (\d+)$/, async (accountId) => {
+    const accountLink = await $(`=${accountId}`);
+
+    await accountLink.waitForDisplayed({
+        timeout: 10000
+    });
+
+    selectedAccountNumber = accountId;
+
+    await accountLink.click();
+});
+
+Then(/^I should see account (\d+)$/, async (accountId) => {
+    await expect(browser).toHaveUrl(
+        expect.stringContaining(`id=${accountId}`)
+    );
 });
 
 Then('I should see its current balance', async () => {
-    await expect($('#balance')).toBeDisplayed();
+    const balance = await $('#balance');
+
+    await balance.waitForDisplayed({
+        timeout: 10000
+    });
+
+    await expect(balance).toBeDisplayed();
+});
+
+Then('I should see recent transactions', async () => {
+    const transactionTable = await $('#transactionTable');
+
+    await transactionTable.waitForDisplayed({
+        timeout: 10000
+    });
+
+    await expect(transactionTable).toBeDisplayed();
+});
+
+Then('the displayed information should be updated', async () => {
+    await expect(browser).toHaveUrl(
+        expect.stringContaining(`id=${selectedAccountNumber}`)
+    );
 });

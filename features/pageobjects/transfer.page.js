@@ -8,9 +8,9 @@ class TransferPage extends Page {
     /**
      * define selectors using getter methods
      */
-  get inputAmount() {
-    return $("//input[@id='amount']");
-  }
+    get inputAmount() {
+      return $("//input[@id='amount']");
+    }
 
     get inputFrom () {
         return $("//select[@id='fromAccountId']");
@@ -23,6 +23,10 @@ class TransferPage extends Page {
     get btnSubmit () {
         return $("//input[@value='Transfer']");
     }
+
+    async waitForPage() {
+        await this.inputAmount.waitForDisplayed({ timeout: 10000 });
+    } 
 
   async transfer(amount, from, to) {
     await this.inputAmount.setValue(amount);

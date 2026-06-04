@@ -1,14 +1,19 @@
 Feature: Account Overview Features
-    Scenario Outline: As an authenticated user, I can view account details
-        Given I am logged into my bank account
-        And I am on the Accounts Overview page
-        When I select account <accountId>
-        Then I should see account <accountId>
-        And I should see its current balance
 
-    ```
-    Examples:
-    | accountId |
-    | 12345     |
-    | 54321     |
-    ```
+    Background:
+        Given I login with username john and password demo
+
+    Scenario: Authenticated user consults account status
+        And I am on the Accounts Overview page
+        Then I should see all my accounts listed
+
+        When I select account 12345
+        Then I should see account 12345
+        And I should see its current balance
+        And I should see recent transactions
+
+        When I select account 54321
+        Then I should see account 54321
+        And I should see its current balance
+        And I should see recent transactions
+        And the displayed information should be updated
